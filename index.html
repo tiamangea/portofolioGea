@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth overflow-x-hidden bg-obsidian" data-theme="red">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Tiaman Gea | Mechanical Design Portfolio</title>
+    
+    <!-- Google Fonts: Inter & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        obsidian: '#030303',
+                        cardDark: '#0D0D0D',
+                        crimsonGlow: 'var(--glow-color)',
+                        crimsonDeep: 'var(--deep-color)',
+                        borderDark: 'var(--border-color)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* CSS Custom Variables for Dynamic Theme Switching */
+        :root {
+            --glow-color: #E50914;
+            --deep-color: #7F0000;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --glow-rgb: 229, 9, 20;
+            --deep-rgb: 127, 0, 0;
+        }
+
+        [data-theme="blue"] {
+            --glow-color: #0A84FF;
+            --deep-color: #003366;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --glow-rgb: 10, 132, 255;
+            --deep-rgb: 0, 51, 102;
+        }
+
+        /* Custom Customizations for The Crimson Abyss / Blue Horizon Theme */
+        html, body {
+            background-color: #030303 !important;
+            color: #A3A3A3;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        *, ::before, ::after {
+            box-sizing: border-box;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030303;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1a0606;
+            border-radius: 4px;
+        }
+        [data-theme="blue"] ::-webkit-scrollbar-thumb {
+            background: #020b1a;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--glow-color);
+        }
+
+        /* Glassmorphism Navigation */
+        .glass-nav {
+            background: rgba(13, 13, 13, 0.45);
+            backdrop-filter: blur(24px) saturate(120%);
+            -webkit-backdrop-filter: blur(24px) saturate(120%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 
+                inset 0 1.5px 1px rgba(255, 255, 255, 0.12),
+                0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Horizontal Ellipse Spotlight Glow - Stretched to match design guidelines */
+        .menu-spotlight {
+            background: radial-gradient(ellipse at center, rgba(var(--glow-rgb), 0.85) 0%, rgba(var(--glow-rgb), 0.2) 50%, transparent 80%);
+            filter: blur(10px);
+            opacity: 0;
+            transform: translate(-50%, -50%) scaleX(0.5) scaleY(0.4);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+        }
+        .group:hover .menu-spotlight {
+            opacity: 1;
+            transform: translate(-50%, -50%) scaleX(1.3) scaleY(1.1);
+        }
+        .menu-text {
+            transition: text-shadow 0.3s ease, color 0.3s ease;
+        }
+        .group:hover .menu-text {
+            text-shadow: 0 0 8px rgba(var(--glow-rgb), 0.95), 0 0 15px rgba(var(--glow-rgb), 0.4);
+            color: #ffffff;
+        }
+
+        /* Premium NEO-GLASSMOPRHISM Glow Cards (Matching Cuplikan layar 2026-05-21 034716.png exactly) */
+        .glow-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: blur(24px) saturate(120%);
+            -webkit-backdrop-filter: blur(24px) saturate(120%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 
+                inset 0 1.5px 1px rgba(255, 255, 255, 0.12),
+                inset 0 -1.5px 1px rgba(0, 0, 0, 0.4),
+                0 12px 40px rgba(0, 0, 0, 0.6);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glow-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(var(--glow-rgb), 0.12), transparent 40%);
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .glow-card:hover::before {
+            opacity: 1;
+        }
+
+        .glow-card:hover {
+            border-color: rgba(var(--glow-rgb), 0.3);
+            box-shadow: 
+                inset 0 1.5px 1.5px rgba(255, 255, 255, 0.2),
+                inset 0 -1.5px 1.5px rgba(0, 0, 0, 0.3),
+                0 20px 50px rgba(var(--glow-rgb), 0.12),
+                0 0 30px rgba(var(--glow-rgb), 0.08);
+            transform: translateY(-4px);
+        }
+
+        /* Ambient Circulating Glow (Matching download (17).jpg - Circulates around edges slowly) */
+        @keyframes driftSlow1 {
+            0% { transform: translate(-20%, -20%) rotate(0deg); }
+            33% { transform: translate(50%, 10%) rotate(120deg); }
+            66% { transform: translate(10%, 60%) rotate(240deg); }
+            100% { transform: translate(-20%, -20%) rotate(360deg); }
+        }
+        @keyframes driftSlow2 {
+            0% { transform: translate(60%, 60%) rotate(360deg); }
+            33% { transform: translate(10%, 30%) rotate(240deg); }
+            66% { transform: translate(40%, -10%) rotate(120deg); }
+            100% { transform: translate(60%, 60%) rotate(0deg); }
+        }
+
+        .ambient-circulate-1 {
+            background: radial-gradient(circle, rgba(var(--glow-rgb), 0.13) 0%, rgba(var(--glow-rgb), 0.03) 45%, transparent 70%);
+            filter: blur(80px);
+            animation: driftSlow1 55s infinite linear;
+        }
+
+        .ambient-circulate-2 {
+            background: radial-gradient(circle, rgba(var(--deep-rgb), 0.1) 0%, rgba(var(--deep-rgb), 0.02) 45%, transparent 70%);
+            filter: blur(90px);
+            animation: driftSlow2 65s infinite linear;
+        }
+
+        /* Text gradient */
+        .text-gradient {
+            background: linear-gradient(135deg, #FFFFFF 30%, var(--glow-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Active Timeline Dot Pulse */
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(var(--glow-rgb), 0.4); }
+            50% { transform: scale(1.1); box-shadow: 0 0 15px 4px rgba(var(--glow-rgb), 0.2); }
+        }
+        .pulse-node {
+            animation: pulseGlow 3s infinite;
+        }
+    </style>
+</head>
+<body class="font-sans selection:bg-crimsonGlow selection:text-white overflow-x-hidden w-full bg-obsidian overflow-hidden">
+
+    <!-- LAYER PERTAMA: Premium Cinematic Splash Screen -->
+    <div id="splash-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-obsidian transition-all duration-1000 ease-out">
+        <!-- Background ambient circular drift behind splash -->
+        <div class="absolute w-[500px] h-[500px] rounded-full ambient-circulate-1 opacity-70"></div>
+        
+        <div class="relative z-10 text-center space-y-8 max-w-lg px-6">
+            <!-- Small tagline -->
+            <div class="text-[10px] font-mono tracking-[0.3em] text-crimsonGlow uppercase animate-pulse">Selamat Datang</div>
+            
+            <div class="space-y-3">
+                <h2 class="text-[10px] sm:text-xs font-mono tracking-[0.5em] text-neutral-500 uppercase">PERANCANGAN MEKANIK</h2>
+                <h1 class="text-4xl sm:text-6xl font-black tracking-[0.15em] text-white select-none">PORTOFOLIO</h1>
+                <div class="text-2xl sm:text-3xl font-serif italic text-gradient tracking-widest font-bold">Tiaman Gea</div>
+            </div>
+            
+            <div class="h-[1px] w-24 bg-gradient-to-r from-transparent via-crimsonGlow/40 to-transparent mx-auto"></div>
+            
+            <!-- Lanjutkan Action Button (Glowing pill style matching theme) -->
+            <div class="pt-2">
+                <button id="btn-continue" class="glow-card relative px-8 py-3.5 rounded-full text-white text-xs font-bold uppercase tracking-[0.2em] active:scale-95 group overflow-visible inline-block">
+                    <span class="absolute top-1/2 left-1/2 w-[140%] h-12 rounded-full menu-spotlight pointer-events-none z-0"></span>
+                    <span class="relative z-10 menu-text">Lanjutkan</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Bottom branding -->
+        <div class="absolute bottom-8 text-[9px] font-mono text-neutral-600 uppercase tracking-[0.2em] select-none">
+            UNIVERSITAS DIPONEGORO • 2026
+        </div>
+    </div>
+
+    <!-- Overall Layout Guard Wrapper (This contains the main portfolio) -->
+    <div class="relative w-full overflow-x-hidden min-h-screen bg-obsidian">
+
+        <!-- LAYER LATAR BELAKANG: Circulating Ambient Spotlight Glow (Terinspirasi download (17).jpg) -->
+        <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+            <div class="absolute -top-[10%] -left-[10%] w-[90vw] h-[90vw] max-w-[900px] max-h-[900px] rounded-full ambient-circulate-1"></div>
+            <div class="absolute -bottom-[10%] -right-[10%] w-[80vw] h-[80vw] max-w-[800px] max-h-[800px] rounded-full ambient-circulate-2"></div>
+        </div>
+
+        <!-- Antigravity Particle & Wave Canvas (Sits over cards but click-through remains active) -->
+        <canvas id="antigravity-canvas" class="fixed inset-0 pointer-events-none z-30"></canvas>
+
+        <!-- Ambient Dynamic Glow Spot -->
+        <div id="cursor-glow" class="fixed top-0 left-0 w-[500px] h-[500px] rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2 transition-opacity duration-500 opacity-0 bg-[radial-gradient(circle,_rgba(var(--glow-rgb),0.05)_0%,_rgba(3,3,3,0)_70%)] z-30"></div>
+
+        <!-- Navigation Bar (The Floating Monolith) -->
+        <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+            <div class="glass-nav py-4 px-4 sm:px-6 md:px-12 flex justify-between items-center max-w-7xl mx-auto rounded-b-xl">
+                <!-- Brand Logo with Smooth Pulsing Glow on Hover -->
+                <a href="#hero" class="flex items-center space-x-2 sm:space-x-3 group relative py-1 px-2 rounded-lg">
+                    <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-crimsonGlow to-crimsonDeep flex items-center justify-center font-bold text-white text-lg tracking-wider glow-card">T</span>
+                    <span class="font-bold text-white tracking-widest text-xs sm:text-sm uppercase group-hover:text-crimsonGlow transition-colors relative z-10">Tiaman Gea</span>
+                </a>
+                
+                <!-- Desktop Menu with Dynamic Radial Circular Glow on Hover -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2 text-xs uppercase tracking-widest font-semibold items-center">
+                    
+                    <!-- Menu Tentang -->
+                    <a href="#about" class="glow-card relative px-4 py-2 rounded-full text-white text-[10px] lg:text-xs font-semibold uppercase tracking-wider active:scale-95 group overflow-visible inline-block text-center">
+                        <span class="absolute top-1/2 left-1/2 w-[140%] h-12 rounded-full menu-spotlight pointer-events-none z-0"></span>
+                        <span class="relative z-10 menu-text">Tentang</span>
+                    </a>
+
+                    <!-- Menu Pendidikan -->
+                    <a href="#education" class="glow-card relative px-4 py-2 rounded-full text-white text-[10px] lg:text-xs font-semibold uppercase tracking-wider active:scale-95 group overflow-visible inline-block text-center">
+                        <span class="absolute top-1/2 left-1/2 w-[140%] h-12 rounded-full menu-spotlight pointer-events-none z-0"></span>
+                        <span class="relative z-10 menu-text">Pendidikan</span>
+                    </a>
+                    
+                    <!-- Menu Pencapaian -->
+                    <a href="#projects" class="glow-card relative px-4 py-2 rounded-full text-white text-[10px] lg:text-xs font-semibold uppercase tracking-wider active:scale-95 group overflow-visible inline-block text-center">
+                        <span class="absolute top-1/2 left-1/2 w-[140%] h-12 rounded-full menu-spotlight pointer-events-none z-0"></span>
+                        <span class="relative z-10 menu-text">Pencapaian</span>
+                    </a>
+                    
+                    <!-- Menu Pengalaman -->
+                    <a href="#experience" class="glow-card relative px-4 py-2 rounded-full text-white text-[10px] lg:text-xs font-semibold uppercase tracking-wider active:scale-95 group overflow-visible inline-block text-center">
+                        <span class="absolute top-1/2 left-1/2 w-[140%] h-12 rounded-full menu-spotlight pointer-events-none z-0"></span>
+                        <span class="relative z-10 menu-text">Pengalaman</span>
+                    </a>
+                    
+                    <!-- Menu Keahlian -->
+                    <a href="#skills" class="glow-card relative px-4 py-2 rounded-full text-white text-[10px] lg:text-xs font-semibold uppercase tracking-wider active:scale-95 group overflow-visible inline-block text-center">
+                        <span class="absolute top-1/2 left-1/2 w-[140%] h-12 rounded-full menu-spotlight pointer-events-none z-0"></span>
+                        <span class="relative z-10 menu-text">Keahlian</span>
+                    </a>
+                </nav>
+
+                <!-- Navigation CTRLs (Theme Switch + Hubungi Button) -->
+                <div class="flex items-center space-x-3">
+                    <!-- [DESKTOP] Premium Theme Toggle Switch (Red <-> Blue) -->
+                    <div class="hidden md:flex items-center space-x-2 mr-2">
+                        <span class="text-[9px] font-mono tracking-widest text-neutral-500 uppercase select-none">TEMA</span>
+                        <button id="theme-toggle-desktop" class="theme-toggle-btn glow-card relative w-12 h-6 rounded-full flex items-center p-0.5 transition-all duration-300 focus:outline-none" aria-label="Ganti Tema">
+                            <div class="absolute inset-0 rounded-full opacity-10 transition-all duration-300" style="background-color: var(--glow-color)"></div>
+                            <div class="knob w-4.5 h-4.5 rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center bg-crimsonGlow">
+                                <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- Hubungi Button -->
+                    <div class="hidden md:block">
+                        <a href="#contact" class="glow-card relative px-5 py-2.5 rounded-full text-white text-xs font-semibold uppercase tracking-wider active:scale-95 group overflow-visible inline-block text-center">
+                            <span class="absolute top-1/2 left-1/2 w-[140%] h-12 rounded-full menu-spotlight pointer-events-none z-0"></span>
+                            <span class="relative z-10 menu-text">Hubungi</span>
+                        </a>
+                    </div>
+
+                    <!-- Mobile Menu Toggle Button -->
+                    <button id="mobile-menu-btn" class="md:hidden text-white hover:text-crimsonGlow focus:outline-none p-2" aria-label="Toggle Menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Panel -->
+            <div id="mobile-menu" class="hidden md:hidden glass-nav mt-1 mx-4 p-4 rounded-xl flex flex-col space-y-3 text-center border border-borderDark max-w-[calc(100vw-32px)]">
+                <a href="#about" class="glow-card relative px-5 py-2.5 rounded-full text-white text-xs font-semibold uppercase tracking-wider active:scale-95 group overflow-visible block text-center">
+                    <span class="absolute top-1/2 left-1/2 w-[140%] h-10 rounded-full menu-spotlight pointer-events-none z-0"></span>
+                    <span class="relative z-10 menu-text">Tentang</span>
+                </a>
+                <a href="#education" class="glow-card relative px-5 py-2.5 rounded-full text-white text-xs font-semibold uppercase tracking-wider active:scale-95 group overflow-visible block text-center">
+                    <span class="absolute top-1/2 left-1/2 w-[140%] h-10 rounded-full menu-spotlight pointer-events-none z-0"></span>
+                    <span class="relative z-10 menu-text">Pendidikan</span>
+                </a>
+                <a href="#projects" class="glow-card relative px-5 py-2.5 rounded-full text-white text-xs font-semibold uppercase tracking-wider active:scale-95 group overflow-visible block text-center">
+                    <span class="absolute top-1/2 left-1/2 w-[140%] h-10 rounded-full menu-spotlight pointer-events-none z-0"></span>
+                    <span class="relative z-10 menu-text">Pencapaian</span>
+                </a>
+                <a href="#experience" class="glow-card relative px-5 py-2.5 rounded-full text-white text-xs font-semibold uppercase tracking-wider active:scale-95 group overflow-visible block text-center">
+                    <span class="absolute top-1/2 left-1/2 w-[140%] h-10 rounded-full menu-spotlight pointer-events-none z-0"></span>
+                    <span class="relative z-10 menu-text">Pengalaman</span>
+                </a>
+                <a href="#skills" class="glow-card relative px-5 py-2.5 rounded-full text-white text-xs font-semibold uppercase tracking-wider active:scale-95 group overflow-visible block text-center">
+                    <span class="absolute top-1/2 left-1/2 w-[140%] h-10 rounded-full menu-spotlight pointer-events-none z-0"></span>
+                    <span class="relative z-10 menu-text">Keahlian</span>
+                </a>
+
+                <!-- [MOBILE] Theme Toggle Control Switch -->
+                <div class="flex items-center justify-between px-5 py-2.5 rounded-full border border-borderDark bg-neutral-950/80">
+                    <span class="text-[10px] font-mono tracking-widest text-neutral-400 uppercase select-none">TEMA (MERAH / BIRU)</span>
+                    <button id="theme-toggle-mobile" class="theme-toggle-btn glow-card relative w-12 h-6 rounded-full flex items-center p-0.5 transition-all duration-300 focus:outline-none" aria-label="Ganti Tema">
+                        <div class="absolute inset-0 rounded-full opacity-10 transition-all duration-300" style="background-color: var(--glow-color)"></div>
+                        <div class="knob w-4.5 h-4.5 rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center bg-crimsonGlow">
+                            <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
+                        </div>
+                    </button>
+                </div>
+
+                <a href="#contact" class="glow-card relative px-5 py-3 rounded-full text-white text-xs font-bold uppercase tracking-wider transition-all active:scale-95 group overflow-visible block text-center">
+                    <span class="absolute top-1/2 left-1/2 w-[140%] h-10 rounded-full menu-spotlight pointer-events-none z-0"></span>
+                    <span class="relative z-10 menu-text">Hubungi Saya</span>
+                </a>
+            </div>
+
+            <!-- Navigation Scroll Progress -->
+            <div id="scroll-progress" class="h-[2px] bg-crimsonGlow w-0 transition-all duration-100"></div>
+        </header>
+
+        <!-- Hero Section (The First Impression) -->
+        <section id="hero" class="relative min-h-screen flex items-center justify-center pt-28 pb-12 px-4 sm:px-6 md:px-12 overflow-hidden bg-obsidian">
+            <div class="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center z-10">
+                <!-- Hero Text Content -->
+                <div class="lg:col-span-7 text-left space-y-4 sm:space-y-6 order-2 lg:order-1">
+                    <!-- Tagline Badge -->
+                    <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full border border-crimsonGlow/20 bg-crimsonGlow/5 text-crimsonGlow text-[10px] sm:text-xs font-semibold tracking-widest uppercase">
+                        <span class="w-1.5 h-1.5 rounded-full bg-crimsonGlow animate-pulse"></span>
+                        <span>Mechanical Design Engineering</span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight uppercase">
+                        Dari Ide Menjadi Desain, Desain <span class="text-gradient">Menjadi Solusi</span>
+                    </h1>
+
+                    <p class="text-sm sm:text-base md:text-lg text-neutral-400 max-w-xl leading-relaxed">
+                        Saya Tiaman Gea, mahasiswa Rekayasa Perancangan Mekanik di Universitas Diponegoro. Berfokus pada efisiensi kerja, analisis desain berbantuan komputer (CAD/CAE), dan keselamatan kerja industri.
+                    </p>
+
+                    <!-- Hero CTAs -->
+                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 sm:pt-4">
+                        <a href="#projects" class="glow-card px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center space-x-2">
+                            <span>Lihat Pencapaian</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                        <a href="#contact" class="glow-card px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center space-x-2">
+                            <span>Hubungi Saya</span>
+                        </a>
+                    </div>
+
+                    <!-- Live Metrics -->
+                    <div class="grid grid-cols-3 gap-4 sm:gap-6 pt-8 sm:pt-12 border-t border-borderDark/60 max-w-md">
+                        <div>
+                            <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white">2028</div>
+                            <div class="text-[9px] sm:text-xs uppercase tracking-wider text-neutral-500 mt-1">Estimasi Lulus</div>
+                        </div>
+                        <div>
+                            <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white flex items-center">
+                                <span>SILVER MEDAL</span>
+                            </div>
+                            <div class="text-[9px] sm:text-xs uppercase tracking-wider text-neutral-500 mt-1">AISEEF 2026</div>
+                        </div>
+                        <div>
+                            <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white">AWARDEE</div>
+                            <div class="text-[9px] sm:text-xs uppercase tracking-wider text-neutral-500 mt-1">BPDP SCHOLARSHIP</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Avatar Area with Image Replace Space -->
+                <div class="lg:col-span-5 flex justify-center lg:justify-end order-1 lg:order-2 w-full">
+                    <!-- Wrapper dengan proporsi rasio 4:5 yang presisi dan responsif -->
+                    <div class="relative group w-full max-w-[288px] sm:max-w-[320px] aspect-[4/5] bg-transparent rounded-2xl">
+                        <!-- Bingkai luar dengan pendaran neon tipis (Rasio 4:5) -->
+                        <div class="absolute inset-0 rounded-2xl border-2 border-dashed border-crimsonGlow/20 scale-105 group-hover:scale-110 group-hover:border-crimsonGlow/40 transition-all duration-700 aspect-[4/5]"></div>
+                        
+                        <!-- Wadah Foto Utama (Rasio 4:5) - Murni Hitam Tanpa Latar Abu-Abu -->
+                        <div class="absolute inset-0 rounded-2xl overflow-hidden border border-borderDark bg-[#030303] flex items-center justify-center aspect-[4/5]">
+                            
+                            <!-- 
+                              GANTI FOTO PROFIL ANDA DI SINI (profile.jpg)
+                              Foto profesional dengan format portrait rasio 4:5 murni
+                            -->
+                            <img src="profil.jpeg" 
+                                 alt="Tiaman Gea Portrait" 
+                                 id="hero-profile-img"
+                                 onerror="this.style.display='none'; document.getElementById('hero-profile-fallback').classList.remove('hidden')"
+                                 class="w-full h-full object-cover relative z-10 transition-transform duration-500 group-hover:scale-105">
+
+                            <!-- [EFEK UTAMA] Gradasi warna merah/biru yang dikurangi intensitasnya agar lebih samar, lembut, & jernih -->
+                            <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-crimsonGlow/20 via-crimsonGlow/5 to-transparent z-20 pointer-events-none"></div>
+
+                            <!-- Fallback Representasi Visual 4:5 Murni Minimalis Tanpa Kotak Tengah "TG D4 RPM UNDIP" -->
+                            <div id="hero-profile-fallback" class="hidden absolute inset-0 bg-[#030303] flex flex-col items-center justify-center p-6 z-10 rounded-2xl overflow-hidden">
+                                <!-- Blueprint Grid Pattern Background -->
+                                <div class="absolute inset-0 opacity-[0.07]" style="background-image: radial-gradient(var(--glow-color) 1.5px, transparent 1.5px); background-size: 20px 20px;"></div>
+                                
+                                <!-- Minimalist Silhouette SVG Blueprint -->
+                                <div class="relative z-10 flex flex-col items-center justify-center space-y-4">
+                                    <div class="w-20 h-20 rounded-full border border-crimsonGlow/20 p-1 bg-[#030303] flex items-center justify-center shadow-[0_0_30px_rgba(var(--glow-rgb),0.1)]">
+                                        <svg class="w-10 h-10 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                        </svg>
+                                    </div>
+                                    <div class="text-center space-y-1">
+                                        <span class="text-[10px] font-mono text-neutral-400 tracking-wider">Tiaman Gea</span>
+                                        <p class="text-[8px] font-mono text-crimsonGlow uppercase tracking-widest font-bold animate-pulse">[GANTI PROFILE.JPG]</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 sm:py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto relative bg-obsidian">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+                <!-- Title Column -->
+                <div class="lg:col-span-4 space-y-3 sm:space-y-4">
+                    <span class="text-xs uppercase tracking-widest font-bold text-crimsonGlow">Tentang Saya</span>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight uppercase">Kualifikasi & Filosofi Kerja</h2>
+                    <p class="text-neutral-500 text-sm leading-relaxed max-w-md">
+                        Menggabungkan kemampuan analisis teknis dengan ketangkasan organisasi serta empati sosial yang tinggi.
+                    </p>
+                </div>
+
+                <!-- Content Column -->
+                <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                    <!-- Card 1 -->
+                    <div class="glow-card p-6 sm:p-8 rounded-2xl">
+                        <h3 class="text-base sm:text-lg font-bold text-white mb-2 sm:mb-3">Efisiensi & Keselamatan</h3>
+                        <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                            Sebagai mahasiswa Perancangan Mekanik, saya didorong untuk merancang sistem mekanis yang tidak hanya efisien, namun juga mengutamakan faktor keselamatan kerja industri (K3).
+                        </p>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="glow-card p-6 sm:p-8 rounded-2xl">
+                        <h3 class="text-lg font-bold text-white mb-2 sm:mb-3">Interpersonal & Komunikasi</h3>
+                        <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                            Memiliki kapasitas komunikasi dan negosiasi yang teruji lewat peran-peran strategis dalam organisasi kemahasiswaan nasional dan pendampingan disabilitas.
+                        </p>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="glow-card p-6 sm:p-8 rounded-2xl">
+                        <h3 class="text-lg font-bold text-white mb-2 sm:mb-3">Kolaborasi Multi-disiplin</h3>
+                        <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                            Terbiasa memimpin tim kepanitiaan berskala nasional, berkoordinasi dengan narasumber profesional, sponsor, juri, dan institusi eksternal untuk melahirkan sinergi yang produktif.
+                        </p>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="glow-card p-6 sm:p-8 rounded-2xl">
+                        <h3 class="text-lg font-bold text-white mb-2 sm:mb-3">Sains & Penelitian</h3>
+                        <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                            Terus melatih rasa ingin tahu di bidang inovasi sains internasional yang terbukti melalui raihan medali perak dalam ajang riset sains global.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="py-20 sm:py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto relative border-t border-borderDark/40 bg-obsidian">
+            <div class="space-y-12 sm:space-y-16">
+                <!-- Section Header -->
+                <div class="max-w-2xl space-y-3 sm:space-y-4">
+                    <span class="text-xs uppercase tracking-widest font-bold text-crimsonGlow">Riwayat Akademis</span>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight uppercase">Pendidikan Formal</h2>
+                    <p class="text-neutral-500 text-sm leading-relaxed max-w-md">
+                        Fondasi pengetahuan teoretis rekayasa, metode numerik, dan pemodelan analitis yang membentuk kapabilitas profesional saya.
+                    </p>
+                </div>
+
+                <!-- Academic Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                    
+                    <!-- University Card: UNDIP -->
+                    <div class="glow-card p-6 sm:p-8 rounded-2xl flex flex-col justify-between space-y-6 relative overflow-hidden">
+                        <!-- Technical Border Accents -->
+                        <div class="absolute top-0 right-0 w-24 h-24 border-t-2 border-r-2 border-crimsonGlow/10 pointer-events-none"></div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-start gap-4">
+                                <span class="px-3 py-1 rounded-xl bg-crimsonGlow/10 border border-crimsonGlow/30 text-[10px] font-mono font-bold uppercase tracking-wider text-crimsonGlow">Diploma IV (D4)</span>
+                                <span class="text-xs font-mono text-neutral-500">2024 — 2028 (Estimasi)</span>
+                            </div>
+                            
+                            <div class="space-y-1">
+                                <h3 class="text-xl sm:text-2xl font-black text-white uppercase tracking-wide">Universitas Diponegoro</h3>
+                                <p class="text-sm font-semibold text-neutral-400 font-mono">Rekayasa Perancangan Mekanik — Sekolah Vokasi</p>
+                            </div>
+                            
+                            <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                                Mendalami ilmu rekayasa terapan yang berfokus pada mekanika kekuatan material, kalkulasi dinamika fluida, metode komputasi numerik, penerapan toleransi geometris (GD&T) berskala ISO, serta analisis tegangan menggunakan Finite Element Analysis (FEA). 
+                            </p>
+
+                            <div class="pt-2">
+                                <div class="text-[10px] uppercase font-mono text-neutral-500 tracking-wider mb-1">Status Pendanaan Akademik:</div>
+                                <div class="inline-flex items-center space-x-2 px-2.5 py-1 rounded bg-green-500/10 border border-green-500/30 text-green-500 text-xs font-semibold">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                                    <span>Beasiswa Penuh Sawit (BPDPKS)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Progress indicator line -->
+                        <div class="space-y-1 pt-4 border-t border-borderDark/60">
+                            <div class="flex justify-between text-[10px] font-mono text-neutral-500 uppercase">
+                                <span>Kemajuan Studi</span>
+                                <span>Aktif Semester 4</span>
+                            </div>
+                            <div class="h-1.5 w-full bg-neutral-900 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-crimsonDeep to-crimsonGlow rounded-full" style="width: 50%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- High School Card: SMAN 1 Tandun -->
+                    <div class="glow-card p-6 sm:p-8 rounded-2xl flex flex-col justify-between space-y-6 relative overflow-hidden">
+                        <!-- Technical Border Accents -->
+                        <div class="absolute top-0 right-0 w-24 h-24 border-t-2 border-r-2 border-crimsonGlow/10 pointer-events-none"></div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-start gap-4">
+                                <span class="px-3 py-1 rounded bg-[#030303] border border-borderDark text-[10px] font-mono font-bold uppercase tracking-wider text-neutral-400">Pendidikan Menengah</span>
+                                <span class="text-xs font-mono text-neutral-500">2020 — 2023</span>
+                            </div>
+                            
+                            <div class="space-y-1">
+                                <h3 class="text-xl sm:text-2xl font-black text-white uppercase tracking-wide">SMA Negeri 1 Tandun</h3>
+                                <p class="text-sm font-semibold text-neutral-400 font-mono">Peminatan Ilmu Pengetahuan Alam (IPA)</p>
+                            </div>
+                            
+                            <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                                Mematangkan penguasaan mendalam pada mata pelajaran sains inti termasuk Fisika Mekanika, Matematika Kalkulus Diferensial & Integral, serta Kimia Terapan. Memberikan fondasi analitis kuat dan pola pikir sistematis sebelum melangkah ke jenjang Pendidikan Tinggi Rekayasa Mekanikal.
+                            </p>
+                        </div>
+
+                        <!-- School status footer -->
+                        <div class="pt-4 border-t border-borderDark/60 flex justify-between items-center">
+                            <span class="text-[10px] font-mono text-neutral-500 uppercase">Predikat Kelulusan</span>
+                            <span class="text-xs font-mono text-white font-bold">LULUS TERBAIK</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Bento Grid Section: Projects & Achievements -->
+        <section id="projects" class="py-20 sm:py-24 px-4 sm:px-6 md:px-12 bg-neutral-950/30 border-y border-borderDark/40">
+            <div class="max-w-7xl mx-auto space-y-8 sm:space-y-12">
+                
+                <!-- Section Header -->
+                <div class="text-center max-w-2xl mx-auto space-y-3 sm:space-y-4">
+                    <span class="text-xs uppercase tracking-widest font-bold text-crimsonGlow">Portofolio & Pencapaian</span>
+                    <h2 class="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white tracking-tight uppercase">PENCAPAIAN</h2>
+                    <p class="text-sm text-neutral-400">
+                        Eksplorasi representasi Bento Grid yang merangkum hasil kerja keras, dedikasi ilmiah, serta kontribusi aktif dalam lingkungan akademik dan sosial.
+                    </p>
+                </div>
+
+                <!-- Bento Grid Container -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:auto-rows-[220px]">
+                    
+                    <!-- Bento Block 1: AISEEF & IYSA Silver Medal (Large - spans 2 cols, 2 rows) -->
+                    <div class="glow-card p-6 sm:p-8 rounded-2xl md:col-span-2 md:row-span-2 flex flex-col justify-between group h-auto md:h-full min-h-[220px]">
+                        <div class="space-y-3 sm:space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="px-2.5 py-1 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">Prestasi Internasional</span>
+                                <span class="text-xs font-semibold text-neutral-500">2026</span>
+                            </div>
+                            <h3 class="text-xl sm:text-2xl font-extrabold text-white leading-tight group-hover:text-crimsonGlow transition-colors uppercase">
+                                Silver Medal - AISEEF & IYSA International Science Competition
+                            </h3>
+                            <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed max-w-xl">
+                                Memperoleh medali perak dalam ajang riset sains internasional bergengsi yang diselenggarakan oleh AISEEF dan IYSA, bekerja sama dengan Fakultas Teknik Universitas Diponegoro. Fokus riset mencakup pemanfaatan teknologi mekanis inovatif untuk pemecahan masalah global.
+                            </p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2 pt-4 sm:pt-6 border-t border-borderDark/50 mt-4">
+                            <span class="text-[10px] sm:text-xs font-mono text-neutral-500">Kategori: Science & Engineering Research</span>
+                            <span class="hidden sm:inline w-1.5 h-1.5 rounded-full bg-crimsonGlow"></span>
+                            <span class="text-[10px] sm:text-xs font-mono text-neutral-500">Semarang, Indonesia</span>
+                        </div>
+                    </div>
+
+                    <!-- Bento Block 2: Juara 2 Esai Nasional (Spans 1 col, 2 rows) -->
+                    <div class="glow-card p-6 sm:p-8 rounded-2xl md:row-span-2 flex flex-col justify-between bg-gradient-to-br from-neutral-900 to-obsidian border border-borderDark group h-auto md:h-full min-h-[220px]">
+                        <div class="space-y-3 sm:space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="px-2.5 py-1 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-red-500/10 text-crimsonGlow border border-crimsonGlow/20">Juara 2 Nasional</span>
+                                <span class="text-xs text-neutral-500">2025</span>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-bold text-white group-hover:text-crimsonGlow transition-colors leading-tight">Juara 2 Kompetisi Esai Teknologi & Inovasi Energi</h3>
+                            <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                                Menyabet Juara 2 tingkat Nasional dalam ajang gagasan ilmiah terapan. Mengusung inovasi rancangan alat mekanisasi industri perkebunan sawit berkelanjutan yang berorientasi pada efisiensi energi serta otomatisasi sistem kontrol.
+                            </p>
+                        </div>
+                        <div class="flex flex-wrap items-center justify-between gap-2 pt-4 border-t border-borderDark/50 mt-4">
+                            <span class="text-[10px] sm:text-xs font-mono text-neutral-500">Riset Mekanisasi & Energi</span>
+                            <span class="text-crimsonGlow font-bold text-[10px] sm:text-xs">Nasional</span>
+                        </div>
+                    </div>
+
+                    <!-- Bento Block 3: BPDPKS Scholarship (Spans 1 col, 2 rows) -->
+                    <div class="glow-card p-6 sm:p-8 rounded-2xl md:row-span-2 flex flex-col justify-between bg-gradient-to-br from-neutral-900 to-obsidian border border-borderDark h-auto md:h-full min-h-[220px]">
+                        <div class="space-y-4 sm:space-y-6">
+                            <div class="flex justify-between items-center">
+                                <span class="px-2.5 py-1 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-crimsonGlow/10 text-crimsonGlow border border-crimsonGlow/20">Beasiswa Penuh</span>
+                                <span class="text-xs text-neutral-500">2024 - 2028</span>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-bold text-white">Awardee BPDPKS Scholarship</h3>
+                            <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                                Penerima beasiswa eksklusif dari Badan Pengelola Dana Perkebunan Kelapa Sawit (BPDPKS). Beasiswa ini diberikan kepada talenta muda terpilih untuk mendukung riset, inovasi, dan pengembangan teknologi di sektor industri kelapa sawit nasional yang berkelanjutan.
+                            </p>
+                        </div>
+                        <div class="flex flex-wrap items-center justify-between gap-2 pt-6 border-t border-borderDark/50 mt-4">
+                            <span class="text-[10px] sm:text-xs font-mono text-neutral-500">Kementerian Keuangan RI</span>
+                            <span class="text-white font-bold text-[10px] sm:text-xs">4 Tahun Aktif</span>
+                        </div>
+                    </div>
+
+                    <!-- Bento Block 4: Vokasi Juara -->
+                    <div class="glow-card p-5 sm:p-6 rounded-2xl flex flex-col justify-between h-auto md:h-full min-h-[140px]">
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-mono text-crimsonGlow">Ketua Pelaksana</span>
+                                <span class="text-[10px] text-neutral-500">Nov 2025</span>
+                            </div>
+                            <h4 class="text-sm sm:text-base font-bold text-white truncate">Vokasi Juara National Event</h4>
+                            <p class="text-xs text-neutral-400 line-clamp-2">
+                                Memimpin pengelolaan kompetisi esai & poster nasional guna meningkatkan kreativitas mahasiswa nasional.
+                            </p>
+                        </div>
+                        <div class="text-[10px] font-mono text-neutral-600 mt-2">
+                            BEM Sekolah Vokasi UNDIP
+                        </div>
+                    </div>
+
+                    <!-- Bento Block 5: Sekolah Mawapres -->
+                    <div class="glow-card p-5 sm:p-6 rounded-2xl flex flex-col justify-between h-auto md:h-full min-h-[140px]">
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-mono text-crimsonGlow">Hubungan Masyarakat</span>
+                                <span class="text-[10px] text-neutral-500">Okt 2025</span>
+                            </div>
+                            <h4 class="text-sm sm:text-base font-bold text-white truncate">School of Mawapres</h4>
+                            <p class="text-xs text-neutral-400 line-clamp-2">
+                                Mengatur komunikasi profesional dengan narasumber bereputasi, pembuatan materi briefing, dan koordinasi acara.
+                            </p>
+                        </div>
+                        <div class="text-[10px] font-mono text-neutral-600 mt-2">
+                            Inkubasi Mahasiswa Berprestasi
+                        </div>
+                    </div>
+
+                    <!-- Bento Block 6: Relawan Disabilitas -->
+                    <div class="glow-card p-5 sm:p-6 rounded-2xl flex flex-col justify-between h-auto md:h-full min-h-[140px]">
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-mono text-crimsonGlow">Aktivitas Sosial</span>
+                                <span class="text-[10px] text-neutral-500">2023 - 2024</span>
+                            </div>
+                            <h4 class="text-sm sm:text-base font-bold text-white truncate">Relawan Disabilitas</h4>
+                            <p class="text-xs text-neutral-400 line-clamp-2">
+                                Mendampingi mahasiswa berkebutuhan khusus di Universitas Lancang Kuning demi aksesibilitas yang setara.
+                            </p>
+                        </div>
+                        <div class="text-[10px] font-mono text-neutral-600 mt-2">
+                            Inklusi Pendidikan & Empati
+                        </div>
+                    </div>
+
+                    <!-- Bento Grid 7: Visi Riset Mekanikal -->
+                    <div class="glow-card p-5 sm:p-6 rounded-2xl flex flex-col justify-between bg-gradient-to-t from-neutral-950 to-cardDark border border-borderDark/40 h-auto md:h-full min-h-[140px]">
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-mono text-crimsonGlow">Filosofi Rekayasa</span>
+                                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                            </div>
+                            <h4 class="text-xs sm:text-sm font-bold text-white">Visi Riset Mekanikal</h4>
+                            <p class="text-[10px] sm:text-[11px] text-neutral-400 leading-relaxed">
+                                Mendedikasikan ilmu rekayasa untuk merancang sistem mekanis ramah lingkungan berbasis kecerdasan komputasi CAD/CAE guna mendukung industrialisasi hijau.
+                            </p>
+                        </div>
+                        <div class="text-[9px] font-mono text-neutral-600 uppercase tracking-widest mt-2">
+                            Precision & Sustainability
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Professional Timeline Section -->
+        <section id="experience" class="py-20 sm:py-24 px-4 sm:px-6 md:px-12 max-w-5xl mx-auto relative bg-obsidian">
+            <div class="space-y-12 sm:space-y-16">
+                <!-- Section Title -->
+                <div class="space-y-3 sm:space-y-4">
+                    <span class="text-xs uppercase tracking-widest font-bold text-crimsonGlow">Riwayat Perjalanan</span>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight uppercase">PENGALAMAN</h2>
+                </div>
+
+                <!-- Timeline Elements -->
+                <div class="relative border-l border-neutral-800 ml-2 sm:ml-4 md:ml-32 space-y-12 sm:space-y-16">
+                    
+                    <!-- Timeline Node 1: AISEEF -->
+                    <div class="relative pl-6 sm:pl-8 md:pl-12 group">
+                        <!-- Date Badge (Desktop Left Floating) -->
+                        <div class="absolute hidden md:block -left-40 top-1 text-right w-28">
+                            <span class="text-xs font-mono font-bold text-neutral-500 uppercase">Februari 2026</span>
+                            <div class="text-[10px] font-mono text-crimsonGlow mt-1">International</div>
+                        </div>
+                        <!-- Pulser marker -->
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-neutral-950 border border-crimsonGlow flex items-center justify-center">
+                            <div class="w-1.5 h-1.5 rounded-full bg-crimsonGlow pulse-node"></div>
+                        </div>
+                        <!-- Card content -->
+                        <div class="space-y-2">
+                            <div class="flex items-center space-x-2 md:hidden mb-1">
+                                <span class="text-[10px] sm:text-xs font-mono text-crimsonGlow font-bold uppercase">Februari 2026 — FT UNDIP</span>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-bold text-white group-hover:text-crimsonGlow transition-colors">Peraih Medali Perak Internasional (AISEEF)</h3>
+                            <p class="text-[10px] sm:text-xs font-mono text-neutral-500">Kolaborasi Riset - Provinsi Jawa Tengah, Indonesia</p>
+                            <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed pt-1.5">
+                                Menghasilkan terobosan ilmiah di kancah global. Kompetisi ini menguji orisinalitas riset, aplikasi teknik, dan kontribusi nyata dalam melahirkan solusi mutakhir yang bernilai tinggi.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Node 2: Juara 2 Esai Nasional -->
+                    <div class="relative pl-6 sm:pl-8 md:pl-12 group">
+                        <div class="absolute hidden md:block -left-40 top-1 text-right w-28">
+                            <span class="text-xs font-mono font-bold text-neutral-500 uppercase">Desember 2025</span>
+                            <div class="text-[10px] font-mono text-crimsonGlow mt-1">Kompetisi Esai</div>
+                        </div>
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-neutral-950 border border-crimsonGlow flex items-center justify-center">
+                            <div class="w-1.5 h-1.5 rounded-full bg-crimsonGlow pulse-node"></div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex items-center space-x-2 md:hidden mb-1">
+                                <span class="text-[10px] sm:text-xs font-mono text-crimsonGlow font-bold uppercase">Desember 2025 — Nasional</span>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-bold text-white group-hover:text-crimsonGlow transition-colors">Juara 2 Kompetisi Esai Teknologi & Inovasi Energi</h3>
+                            <p class="text-[10px] sm:text-xs font-mono text-neutral-500">Prestasi Tingkat Nasional - Gagasan Ilmiah Terapan</p>
+                            <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed pt-1.5">
+                                Mengajukan gagasan ilmiah mengenai rancangan mekanisasi industri sawit hemat energi berbasis integrasi otomasi mikrokontroler. Karya tulis dipertahankan di hadapan dewan juri pakar nasional dengan penilaian keaslian ide serta aplikabilitas rekayasa yang luar biasa.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Node 3: Ketua Pelaksana Vokasi Juara -->
+                    <div class="relative pl-6 sm:pl-8 md:pl-12 group">
+                        <div class="absolute hidden md:block -left-40 top-1 text-right w-28">
+                            <span class="text-xs font-mono font-bold text-neutral-500 uppercase">November 2025</span>
+                            <div class="text-[10px] font-mono text-crimsonGlow mt-1">Organisasi</div>
+                        </div>
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-neutral-950 border border-borderDark flex items-center justify-center group-hover:border-crimsonGlow transition-colors">
+                            <div class="w-1.5 h-1.5 rounded-full bg-neutral-700 group-hover:bg-crimsonGlow transition-colors"></div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex items-center space-x-2 md:hidden mb-1">
+                                <span class="text-[10px] sm:text-xs font-mono text-neutral-500 font-bold uppercase">November 2025 — BEM</span>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-bold text-white group-hover:text-crimsonGlow transition-colors">Ketua Pelaksana - Vokasi Juara</h3>
+                            <p class="text-[10px] sm:text-xs font-mono text-neutral-400">Badan Eksekutif Mahasiswa (BEM) Sekolah Vokasi UNDIP</p>
+                            <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed pt-1.5">
+                                Mengomandoi perhelatan nasional kompetisi esai & poster. Bertanggung jawab atas pengelolaan keuangan acara yang efektif, penggalangan dana sponsor, hubungan kemitraan dengan juri, serta menyusun skema evaluasi pasca-acara guna optimalisasi agenda di masa mendatang.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Node 4: Humas Sekolah Mawapres -->
+                    <div class="relative pl-6 sm:pl-8 md:pl-12 group">
+                        <!-- Date Badge (Desktop Left Floating) -->
+                        <div class="absolute hidden md:block -left-40 top-1 text-right w-28">
+                            <span class="text-xs font-mono font-bold text-neutral-500 uppercase">Oktober 2025</span>
+                            <div class="text-[10px] font-mono text-crimsonGlow mt-1">Komunikasi</div>
+                        </div>
+                        <!-- Pulser marker -->
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-neutral-950 border border-borderDark flex items-center justify-center group-hover:border-crimsonGlow transition-colors">
+                            <div class="w-1.5 h-1.5 rounded-full bg-neutral-700 group-hover:bg-crimsonGlow transition-colors"></div>
+                        </div>
+                        <!-- Card content -->
+                        <div class="space-y-2">
+                            <div class="flex items-center space-x-2 md:hidden mb-1">
+                                <span class="text-[10px] sm:text-xs font-mono text-neutral-500 font-bold uppercase">Oktober 2025 — Mawapres</span>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-bold text-white group-hover:text-crimsonGlow transition-colors">Humas - Sekolah Mawapres</h3>
+                            <p class="text-[10px] sm:text-xs font-mono text-neutral-500">Sekolah Mahasiswa Berprestasi Universitas Diponegoro</p>
+                            <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed pt-1.5">
+                                Menghubungkan tim pelaksana dengan pemateri berprestasi. Menyusun lembar pengarahan (*briefing sheet*) formal, menyusun kesepakatan waktu yang efisien, dan memastikan seluruh rangkaian diskusi panel berlangsung dengan standar profesional yang tinggi.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Node 5: Relawan Lancang Kuning -->
+                    <div class="relative pl-6 sm:pl-8 md:pl-12 group">
+                        <!-- Date Badge (Desktop Left Floating) -->
+                        <div class="absolute hidden md:block -left-40 top-1 text-right w-28">
+                            <span class="text-xs font-mono font-bold text-neutral-500 uppercase">2023 - 2024</span>
+                            <div class="text-[10px] font-mono text-crimsonGlow mt-1">Sosial</div>
+                        </div>
+                        <!-- Pulser marker -->
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-neutral-950 border border-borderDark flex items-center justify-center group-hover:border-crimsonGlow transition-colors">
+                            <div class="w-1.5 h-1.5 rounded-full bg-neutral-700 group-hover:bg-crimsonGlow transition-colors"></div>
+                        </div>
+                        <!-- Card content -->
+                        <div class="space-y-2">
+                            <div class="flex items-center space-x-2 md:hidden mb-1">
+                                <span class="text-[10px] sm:text-xs font-mono text-neutral-500 font-bold uppercase">2023 — 2024</span>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-bold text-white group-hover:text-crimsonGlow transition-colors">Relawan Disabilitas</h3>
+                            <p class="text-[10px] sm:text-xs font-mono text-neutral-500">Universitas Lancang Kuning</p>
+                            <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed pt-1.5">
+                                Mendedikasikan waktu mendampingi rekan-rekan mahasiswa berkebutuhan khusus. Membantu mobilisasi fisik yang aman dan memfasilitasi adaptasi metode pembelajaran alternatif agar transfer materi perkuliahan berjalan lancar secara inklusif.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack & Expertise Section -->
+        <section id="skills" class="py-20 sm:py-24 px-4 sm:px-6 md:px-12 bg-neutral-950/20 border-t border-borderDark/40">
+            <div class="max-w-7xl mx-auto space-y-12 sm:space-y-16">
+                
+                <!-- Section Header -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                    <div class="space-y-3 sm:space-y-4">
+                        <span class="text-xs uppercase tracking-widest font-bold text-crimsonGlow">Gudang Kemampuan</span>
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight uppercase">KEAHLIAN</h2>
+                        <p class="text-xs text-crimsonGlow/80 font-mono tracking-widest uppercase animate-pulse">⚡ Klik kartu keahlian untuk melompat langsung ke detail studi kasus terkait!</p>
+                    </div>
+                    <p class="text-neutral-500 text-sm max-w-sm">
+                        Kombinasi fungsional antara kecakapan kalkulasi rekayasa perangkat lunak modern dan kemampuan interpersonal yang kuat.
+                    </p>
+                </div>
+
+                <!-- Skills Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                    
+                    <!-- Category 1: Mechanical Design & CAD -->
+                    <a href="#case-study-cad" class="glow-card p-6 sm:p-8 rounded-2xl space-y-6 block hover:scale-[1.02] active:scale-[0.98] transition-transform duration-300">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-xl bg-crimsonGlow/10 border border-crimsonGlow/20 flex items-center justify-center text-crimsonGlow shrink-0 animate-pulse">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-base sm:text-lg font-bold text-white">Desain Mekanikal & CAD</h3>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-neutral-300 font-mono">SolidWorks & 3D Modeling</span>
+                                    <span class="text-crimsonGlow font-mono">85%</span>
+                                </div>
+                                <div class="h-1.5 w-full bg-neutral-900 rounded-full overflow-hidden">
+                                    <div class="h-full bg-crimsonGlow rounded-full" style="width: 85%;"></div>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-neutral-300 font-mono">AutoCAD Mechanical Drafting</span>
+                                    <span class="text-crimsonGlow font-mono">80%</span>
+                                </div>
+                                <div class="h-1.5 w-full bg-neutral-900 rounded-full overflow-hidden">
+                                    <div class="h-full bg-crimsonGlow rounded-full" style="width: 80%;"></div>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-neutral-300 font-mono">Finite Element Analysis (FEA)</span>
+                                    <span class="text-crimsonGlow font-mono">70%</span>
+                                </div>
+                                <div class="h-1.5 w-full bg-neutral-900 rounded-full overflow-hidden">
+                                    <div class="h-full bg-crimsonGlow rounded-full" style="width: 70%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-4 flex items-center justify-between text-xs font-mono text-crimsonGlow group">
+                            <span>LIHAT DETIL PROYEK</span>
+                            <span class="group-hover:translate-x-1 transition-transform">→</span>
+                        </div>
+                    </a>
+
+                    <!-- Category 2: Professional Productivity & Tools -->
+                    <a href="#case-study-productivity" class="glow-card p-6 sm:p-8 rounded-2xl space-y-6 block hover:scale-[1.02] active:scale-[0.98] transition-transform duration-300">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-xl bg-crimsonGlow/10 border border-crimsonGlow/20 flex items-center justify-center text-crimsonGlow shrink-0 animate-pulse">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-base sm:text-lg font-bold text-white">Productivity Tools</h3>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-neutral-300 font-mono">Microsoft Excel (Data & Analitik)</span>
+                                    <span class="text-crimsonGlow font-mono">90%</span>
+                                </div>
+                                <div class="h-1.5 w-full bg-neutral-900 rounded-full overflow-hidden">
+                                    <div class="h-full bg-crimsonGlow rounded-full" style="width: 90%;"></div>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-neutral-300 font-mono">MS Word (Dokumentasi)</span>
+                                    <span class="text-crimsonGlow font-mono">95%</span>
+                                </div>
+                                <div class="h-1.5 w-full bg-neutral-900 rounded-full overflow-hidden">
+                                    <div class="h-full bg-crimsonGlow rounded-full" style="width: 95%;"></div>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-neutral-300 font-mono">MS PowerPoint (Presentasi)</span>
+                                    <span class="text-crimsonGlow font-mono">85%</span>
+                                </div>
+                                <div class="h-1.5 w-full bg-neutral-900 rounded-full overflow-hidden">
+                                    <div class="h-full bg-crimsonGlow rounded-full" style="width: 85%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-4 flex items-center justify-between text-xs font-mono text-crimsonGlow group">
+                            <span>LIHAT DETIL PROYEK</span>
+                            <span class="group-hover:translate-x-1 transition-transform">→</span>
+                        </div>
+                    </a>
+
+                    <!-- Category 3: Interpersonal & Soft Skills -->
+                    <a href="#case-study-interpersonal" class="glow-card p-6 sm:p-8 rounded-2xl space-y-6 block hover:scale-[1.02] active:scale-[0.98] transition-transform duration-300">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-xl bg-crimsonGlow/10 border border-crimsonGlow/20 flex items-center justify-center text-crimsonGlow shrink-0 animate-pulse">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-base sm:text-lg font-bold text-white">Interpersonal & Soft Skills</h3>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-neutral-300 font-mono">Komunikasi Publik & Presentasi</span>
+                                    <span class="text-crimsonGlow font-mono">92%</span>
+                                </div>
+                                <div class="h-1.5 w-full bg-neutral-900 rounded-full overflow-hidden">
+                                    <div class="h-full bg-crimsonGlow rounded-full" style="width: 92%;"></div>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-neutral-300 font-mono">Negosiasi & Mediasi Konflik</span>
+                                    <span class="text-crimsonGlow font-mono">88%</span>
+                                </div>
+                                <div class="h-1.5 w-full bg-neutral-900 rounded-full overflow-hidden">
+                                    <div class="h-full bg-crimsonGlow rounded-full" style="width: 88%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-4 flex items-center justify-between text-xs font-mono text-crimsonGlow group">
+                            <span>LIHAT DETIL PROYEK</span>
+                            <span class="group-hover:translate-x-1 transition-transform">→</span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Case Studies / Detailed Implementation Grid Section -->
+        <section id="case-studies" class="py-20 sm:py-24 px-4 sm:px-6 md:px-12 bg-neutral-950/40 border-y border-borderDark/40 relative">
+            <div class="max-w-7xl mx-auto space-y-16 sm:space-y-20">
+                <!-- Section Title -->
+                <div class="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
+                    <span class="text-xs uppercase tracking-widest font-bold text-crimsonGlow">Implementasi Nyata</span>
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">PORTOFOLIO PROJEK</h2>
+                    <p class="text-xs sm:text-sm text-neutral-400">
+                        Eksplorasi mendalam mengenai bagaimana setiap kluster keahlian diterapkan secara taktis dalam proyek rekayasa, manajemen organisasi, dan advokasi sosial.
+                    </p>
+                </div>
+
+                <!-- Case Study Items (Optimized for premium single-image layout) -->
+                <div class="space-y-20 sm:space-y-28">
+                    
+                    <!-- CASE STUDY 1: CAD & MECHANICAL DESIGN -->
+                    <div id="case-study-cad" class="scroll-mt-24 sm:scroll-mt-28 space-y-6 sm:space-y-8">
+                        <div class="flex flex-col space-y-2 border-l-2 border-crimsonGlow pl-4 sm:pl-6">
+                            <span class="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-crimsonGlow uppercase">STUDI KASUS PROJEK #01</span>
+                            <h3 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight uppercase">Desain Mekanikal & CAD</h3>
+                        </div>
+                        
+                        <div class="glow-card p-4 sm:p-6 md:p-8 rounded-3xl space-y-8">
+                            
+                            <!-- Single Image Container -->
+                            <div class="w-full">
+                                
+                                <!-- KARTU FOTO CAD UTAMA -->
+                                <div class="w-full h-64 sm:h-80 md:h-96 rounded-2xl border border-borderDark/60 bg-[#030303] flex items-center justify-center relative overflow-hidden group">
+                                    
+                                    <!-- =========================================================================
+                                         [!!!] TEMPAT MEMASUKKAN FOTO CAD UTAMA ANDA [!!!]
+                                         Ganti nilai src="projek-cad.jpg" dengan path file foto Anda.
+                                         ========================================================================= -->
+                                    <img src="projek-cad.png" 
+                                         alt="Desain CAD Mekanikal" 
+                                         id="img-cad-left"
+                                         onerror="this.style.display='none'; document.getElementById('fallback-cad-left').classList.remove('hidden')"
+                                         class="w-full h-full object-cover relative z-10 transition-transform duration-500 group-hover:scale-[1.02]">
+                                    
+                                    <!-- Fallback Visual representation -->
+                                    <div id="fallback-cad-left" class="absolute inset-0 flex flex-col justify-between p-6 z-0 bg-[#030303]">
+                                        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#8b0000_1px,transparent_1px)] [background-size:12px_12px]"></div>
+                                        <span class="text-[9px] font-mono text-neutral-500 uppercase z-10">[Mendukung File Foto: projek-cad.jpg]</span>
+                                        <div class="w-full flex justify-center py-2 z-10">
+                                            <svg class="w-24 h-24 text-crimsonGlow/60 group-hover:text-crimsonGlow transition-colors duration-500 animate-pulse" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.2">
+                                                <circle cx="50" cy="50" r="15" stroke-dasharray="2 2" />
+                                                <rect x="35" y="35" width="30" height="30" rx="3" stroke-dasharray="1 1" />
+                                                <path d="M50 20 L50 10 M50 80 L50 90 M20 50 L10 50 M80 50 L90 50" stroke="var(--glow-color)" />
+                                                <line x1="10" y1="90" x2="90" y2="10" stroke="var(--deep-color)" stroke-width="0.5" />
+                                            </svg>
+                                        </div>
+                                        <span class="text-[10px] font-mono text-crimsonGlow text-center z-10">Desain 3D Assembly CAD & Analisis Mekanikal</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Deskripsi Projek CAD -->
+                            <div class="space-y-4 max-w-5xl mx-auto pt-4 border-t border-borderDark/30">
+                                <h4 class="text-xl sm:text-2xl font-bold text-white tracking-wide">Rancang Bangun Komponen Presisi & Analisis Dinamik</h4>
+                                <p class="text-sm sm:text-base text-neutral-400 leading-relaxed">
+                                    Melalui perkuliahan di **Rekayasa Perancangan Mekanik UNDIP**, saya mengaplikasikan perangkat lunak CAD/CAE canggih untuk merancang inovasi mekanis. Saya mengkhususkan diri dalam pemodelan parametrik 3D, pembuatan gambar kerja standar ISO 2D detail, serta visualisasi assembly yang kompleks.
+                                </p>
+                                <p class="text-sm sm:text-base text-neutral-400 leading-relaxed">
+                                    Proyek ini melibatkan kalkulasi rasio transmisi roda gigi, perancangan poros transmisi daya, serta optimasi geometri untuk mengurangi konsentrasi tegangan mekanik tanpa mengurangi fungsionalitas keseluruhan struktur.
+                                </p>
+                                
+                                <!-- Metrics Badges -->
+                                <div class="flex flex-wrap gap-2 pt-2 justify-start">
+                                    <span class="px-3 py-1 rounded bg-neutral-900 border border-borderDark text-xs text-neutral-400 font-mono">Draf Teknis 2D/3D</span>
+                                    <span class="px-3 py-1 rounded bg-neutral-900 border border-borderDark text-xs text-neutral-400 font-mono">Simulasi Assembly</span>
+                                    <span class="px-3 py-1 rounded bg-neutral-900 border border-borderDark text-xs text-neutral-400 font-mono">Toleransi Geometris (GD&T)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CASE STUDY 2: PRODUCTIVITY TOOLS & ANALYTICS -->
+                    <div id="case-study-productivity" class="scroll-mt-24 sm:scroll-mt-28 space-y-6 sm:space-y-8">
+                        <div class="flex flex-col space-y-2 border-l-2 border-crimsonGlow pl-4 sm:pl-6">
+                            <span class="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-crimsonGlow uppercase">STUDI KASUS PROJEK #02</span>
+                            <h3 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight uppercase">Produktivitas & Analisis Data</h3>
+                        </div>
+                        
+                        <div class="glow-card p-4 sm:p-6 md:p-8 rounded-3xl space-y-8">
+                            
+                            <!-- Single Image Container -->
+                            <div class="w-full">
+                                
+                                <!-- KARTU FOTO PRODUCTIVITY UTAMA -->
+                                <div class="w-full h-64 sm:h-80 md:h-96 rounded-2xl border border-borderDark/60 bg-[#030303] flex items-center justify-center relative overflow-hidden group">
+                                    
+                                    <!-- =========================================================================
+                                         [!!!] TEMPAT MEMASUKKAN FOTO PRODUCTIVITY UTAMA ANDA [!!!]
+                                         Ganti nilai src="projek-office.jpg" dengan path file foto Anda.
+                                         ========================================================================= -->
+                                    <img src="projek-office.jpg" 
+                                         alt="Kalkulasi Anggaran Proyek" 
+                                         id="img-office-left"
+                                         onerror="this.style.display='none'; document.getElementById('fallback-office-left').classList.remove('hidden')"
+                                         class="w-full h-full object-cover relative z-10 transition-transform duration-500 group-hover:scale-[1.02]">
+                                    
+                                    <!-- Fallback Visual representation -->
+                                    <div id="fallback-office-left" class="absolute inset-0 flex flex-col justify-between p-6 z-0 bg-[#030303]">
+                                        <span class="text-[9px] font-mono text-neutral-500 uppercase z-10">[Mendukung File Foto: projek-office.jpg]</span>
+                                        <div class="w-full flex justify-center py-2 z-10">
+                                            <svg class="w-24 h-24 text-crimsonGlow/60 group-hover:text-crimsonGlow transition-colors duration-500 animate-pulse" viewBox="0 0 100 80">
+                                                <rect x="10" y="10" width="80" height="40" fill="none" stroke="#222" stroke-width="0.5" />
+                                                <line x1="10" y1="20" x2="90" y2="20" stroke="#222" stroke-width="0.5" />
+                                                <line x1="10" y1="30" x2="90" y2="30" stroke="#222" stroke-width="0.5" />
+                                                <line x1="10" y1="40" x2="90" y2="40" stroke="#222" stroke-width="0.5" />
+                                                <line x1="36" y1="10" x2="36" y2="50" stroke="#222" stroke-width="0.5" />
+                                                <path d="M15,45 L35,38 L55,22 L75,15" fill="none" stroke="var(--glow-color)" stroke-width="1.8" />
+                                                <circle cx="35" cy="38" r="2" fill="var(--glow-color)" />
+                                                <circle cx="55" cy="22" r="2" fill="var(--glow-color)" />
+                                            </svg>
+                                        </div>
+                                        <span class="text-[10px] font-mono text-crimsonGlow text-center z-10">Pengolahan Data, Analisis Spreadsheet, & Manajemen Timeline</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Deskripsi Projek Office -->
+                            <div class="space-y-4 max-w-5xl mx-auto pt-4 border-t border-borderDark/30">
+                                <h4 class="text-xl sm:text-2xl font-bold text-white tracking-wide">Analisis Anggaran Organisasi & Dokumentasi Terstruktur</h4>
+                                <p class="text-sm sm:text-base text-neutral-400 leading-relaxed">
+                                    Memanfaatkan **Microsoft Excel** dengan rumus logika kompleks, Pivot Table, dan analisis data untuk mengelola keuangan kepanitiaan nasional *Vokasi Juara 2025* dengan transparansi mutlak. Seluruh anggaran dialokasikan secara presisi guna mencegah pembengkakan dana operasional.
+                                </p>
+                                <p class="text-sm sm:text-base text-neutral-400 leading-relaxed">
+                                    Dengan **Microsoft Word & PowerPoint**, saya menyusun proposal kerja sama sponsor eksternal dan lembar briefing narasumber yang rapi, informatif, dan memiliki visualisasi visual yang kuat untuk presentasi di hadapan juri dan mitra strategis.
+                                </p>
+                                
+                                <!-- Metrics Badges -->
+                                <div class="flex flex-wrap gap-2 pt-2 justify-start">
+                                    <span class="px-3 py-1 rounded bg-neutral-900 border border-borderDark text-xs text-neutral-400 font-mono">Pivot Tables & VLOOKUP</span>
+                                    <span class="px-3 py-1 rounded bg-neutral-900 border border-borderDark text-xs text-neutral-400 font-mono">Proposal Korporasi</span>
+                                    <span class="px-3 py-1 rounded bg-neutral-900 border border-borderDark text-xs text-neutral-400 font-mono">Dokumentasi Standar (SOP)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CASE STUDY 3: INTERPERSONAL & COMMUNICATIONS -->
+                    <div id="case-study-interpersonal" class="scroll-mt-24 sm:scroll-mt-28 space-y-6 sm:space-y-8">
+                        <div class="flex flex-col space-y-2 border-l-2 border-crimsonGlow pl-4 sm:pl-6">
+                            <span class="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-crimsonGlow uppercase">STUDI KASUS PROJEK #03</span>
+                            <h3 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight uppercase">Kepemimpinan & Advokasi Sosial</h3>
+                        </div>
+                        
+                        <div class="glow-card p-4 sm:p-6 md:p-8 rounded-3xl space-y-8">
+                            
+                            <!-- Single Image Container -->
+                            <div class="w-full">
+                                
+                                <!-- KARTU FOTO SOSIAL UTAMA -->
+                                <div class="w-full h-64 sm:h-80 md:h-96 rounded-2xl border border-borderDark/60 bg-[#030303] flex items-center justify-center relative overflow-hidden group">
+                                    
+                                    <!-- =========================================================================
+                                         [!!!] TEMPAT MEMASUKKAN FOTO SOSIAL UTAMA ANDA [!!!]
+                                         Ganti nilai src="projek-sosial.jpg" dengan path file foto Anda.
+                                         ========================================================================= -->
+                                    <img src="projek-sosial.jpg" 
+                                         alt="Kolaborasi Organisasi Mahasiswa" 
+                                         id="img-social-left"
+                                         onerror="this.style.display='none'; document.getElementById('fallback-social-left').classList.remove('hidden')"
+                                         class="w-full h-full object-cover relative z-10 transition-transform duration-500 group-hover:scale-[1.02]">
+                                    
+                                    <!-- Fallback Visual representation -->
+                                    <div id="fallback-social-left" class="absolute inset-0 flex flex-col justify-between p-6 z-0 bg-[#030303]">
+                                        <span class="text-[9px] font-mono text-neutral-500 uppercase z-10">[Mendukung File Foto: projek-sosial.jpg]</span>
+                                        <div class="w-full flex justify-center py-2 z-10">
+                                            <svg class="w-24 h-24 text-crimsonGlow/60 group-hover:text-crimsonGlow transition-colors duration-500 animate-pulse" viewBox="0 0 100 80">
+                                                <line x1="50" y1="40" x2="20" y2="20" stroke="#333" stroke-width="1" />
+                                                <line x1="50" y1="40" x2="80" y2="20" stroke="#333" stroke-width="1" />
+                                                <line x1="50" y1="40" x2="15" y2="55" stroke="#333" stroke-width="1" />
+                                                <line x1="50" y1="40" x2="85" y2="55" stroke="#333" stroke-width="1" />
+                                                <circle cx="50" cy="40" r="8" fill="var(--glow-color)" class="animate-ping" style="animation-duration: 2.5s;" />
+                                                <circle cx="50" cy="40" r="6" fill="var(--glow-color)" />
+                                            </svg>
+                                        </div>
+                                        <span class="text-[10px] font-mono text-crimsonGlow text-center z-10">Advokasi Sosial & Kepemimpinan Tim Organisasi</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Deskripsi Projek Sosial -->
+                            <div class="space-y-4 max-w-5xl mx-auto pt-4 border-t border-borderDark/30">
+                                <h4 class="text-xl sm:text-2xl font-bold text-white tracking-wide">Kepemimpinan Event Nasional & Advokasi Inklusif</h4>
+                                <p class="text-sm sm:text-base text-neutral-400 leading-relaxed">
+                                    Memimpin tim BEM serta puluhan relawan dalam menyukseskan program kerja berskala nasional membutuhkan kestabilan emosi, kecerdasan interpersonal, dan kemampuan mendengar yang sangat baik. Saya mengoordinasikan pembagian tugas secara adil, memberikan motivasi tim, dan memitigasi konflik internal secara bijaksana.
+                                </p>
+                                <p class="text-sm sm:text-base text-neutral-400 leading-relaxed">
+                                    Di sisi sosial, kontribusi saya asisten **Relawan Pendamping Disabilitas** membuktikan empati mendalam dalam merancang skema pembelajaran adaptif dan bantuan fisik taktis yang menunjang kesetaraan hak belajar di lingkungan kampus.
+                                </p>
+                                
+                                <!-- Metrics Badges -->
+                                <div class="flex flex-wrap gap-2 pt-2 justify-start">
+                                    <span class="px-3 py-1 rounded bg-neutral-900 border border-borderDark text-xs text-neutral-400 font-mono">Manajemen Relawan</span>
+                                    <span class="px-3 py-1 rounded bg-neutral-900 border border-borderDark text-xs text-neutral-400 font-mono">Mediasi & Advokasi Inklusi</span>
+                                    <span class="px-3 py-1 rounded bg-neutral-900 border border-borderDark text-xs text-neutral-400 font-mono">Negosiasi Kemitraan</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Lead-Capture Contact Form -->
+        <section id="contact" class="py-20 sm:py-24 px-4 sm:px-6 md:px-12 max-w-6xl mx-auto relative bg-obsidian">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                
+                <!-- Information Text Column -->
+                <div class="lg:col-span-5 space-y-6 sm:space-y-8">
+                    <div class="space-y-3 sm:space-y-4">
+                        <span class="text-xs uppercase tracking-widest font-bold text-crimsonGlow">Hubungan Kontak</span>
+                        <h2 class="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white tracking-tight uppercase">Koneksi Profesional</h2>
+                        <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                            Tertarik berkolaborasi dalam proyek desain mekanis, pengujian struktural CAD/CAE, ataupun membutuhkan relawan berdedikasi tinggi? Silakan hubungi saya melalui form di samping atau melalui detail kontak di bawah ini.
+                        </p>
+                    </div>
+
+                    <div class="space-y-4 pt-6 border-t border-borderDark/60">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="text-crimsonGlow font-mono text-xs">Surel:</span>
+                            <a href="mailto:tiamangea01@gmail.com" class="text-xs sm:text-sm text-white hover:text-crimsonGlow transition-colors break-all">tiamangea01@gmail.com</a>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-crimsonGlow font-mono text-xs">Telepon:</span>
+                            <a href="tel:+6282268203615" class="text-xs sm:text-sm text-white hover:text-crimsonGlow transition-colors">+62 822-6820-3615</a>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-crimsonGlow font-mono text-xs">Lokasi:</span>
+                            <span class="text-xs sm:text-sm text-white">Semarang, Jawa Tengah</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-crimsonGlow font-mono text-xs">LinkedIn:</span>
+                            <a href="https://www.linkedin.com/in/tiamangea" target="_blank" rel="noopener noreferrer" class="text-xs sm:text-sm text-white hover:text-crimsonGlow transition-colors break-all">linkedin.com/in/tiamangea</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Form Card -->
+                <div class="lg:col-span-7 glow-card rounded-2xl p-6 sm:p-8 md:p-10 relative">
+                    
+                    <!-- Inner Decorative Tech-Glow Line -->
+                    <div class="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-crimsonGlow/40 to-transparent"></div>
+
+                    <form id="contact-form" class="space-y-6" onsubmit="handleFormSubmit(event)">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Input Nama -->
+                            <div class="space-y-2">
+                                <label for="name" class="block text-xs font-semibold uppercase tracking-wider text-neutral-400">Nama Lengkap</label>
+                                <input type="text" id="name" required class="w-full bg-transparent border-b border-neutral-800 focus:border-crimsonGlow py-3 text-sm text-white focus:outline-none transition-colors" placeholder="Masukkan nama Anda">
+                            </div>
+                            <!-- Input Email -->
+                            <div class="space-y-2">
+                                <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-neutral-400">Alamat Email</label>
+                                <input type="email" id="email" required class="w-full bg-transparent border-b border-neutral-800 focus:border-crimsonGlow py-3 text-sm text-white focus:outline-none transition-colors" placeholder="nama@perusahaan.com">
+                            </div>
+                        </div>
+
+                        <!-- Input Subject -->
+                        <div class="space-y-2">
+                            <label for="subject" class="block text-xs font-semibold uppercase tracking-wider text-neutral-400">Perihal Hubungan</label>
+                            <input type="text" id="subject" required class="w-full bg-transparent border-b border-neutral-800 focus:border-crimsonGlow py-3 text-sm text-white focus:outline-none transition-colors" placeholder="Topik pembicaraan">
+                        </div>
+
+                        <!-- Input Pesan -->
+                        <div class="space-y-2">
+                            <label for="message" class="block text-xs font-semibold uppercase tracking-wider text-neutral-400">Detail Pesan</label>
+                            <textarea id="message" rows="4" required class="w-full bg-transparent border-b border-neutral-800 focus:border-crimsonGlow py-3 text-sm text-white focus:outline-none transition-colors resize-none" placeholder="Tulis rincian pesan Anda di sini..."></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="pt-4">
+                            <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-crimsonGlow to-crimsonDeep text-white text-xs font-bold uppercase tracking-widest hover:shadow-[0_0_20px_rgba(229,9,20,0.35)] transition-all">
+                                Kirim Pesan Koneksi
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Custom In-Memory Premium Success Message Box (No browser alert) -->
+                    <div id="form-success-box" class="hidden absolute inset-0 bg-neutral-950/95 flex flex-col items-center justify-center text-center p-6 sm:p-8 rounded-2xl z-20 space-y-4">
+                        <div class="w-16 h-16 rounded-full bg-crimsonGlow/10 border border-crimsonGlow flex items-center justify-center text-crimsonGlow">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Pesan Anda Berhasil Terkirim</h3>
+                        <p class="text-sm text-neutral-400 max-w-sm leading-relaxed">
+                            Terima kasih telah menghubungkan koneksi profesional dengan saya. Saya akan meninjau pesan Anda dan segera menghubungi kembali dalam waktu dekat.
+                        </p>
+                        <p class="text-[10px] font-mono text-crimsonGlow">Secure transmission: ACTIVE</p>
+                        <button onclick="resetFormState()" class="px-6 py-2 rounded-lg bg-neutral-900 border border-borderDark hover:border-crimsonGlow text-xs text-white uppercase tracking-wider transition-all">
+                            Tutup
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Footer Area -->
+        <footer class="py-12 border-t border-borderDark/40 px-4 sm:px-6 md:px-12 text-center text-xs text-neutral-600 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 bg-obsidian">
+            <div>
+                <p>&copy; 2026 Tiaman Gea. Hak Cipta Dilindungi.</p>
+                <p class="mt-1 font-mono text-[10px] text-neutral-700">Dikembangkan dengan standar "The Crimson Abyss" premium design.</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="https://www.linkedin.com/in/tiamangea" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">LinkedIn</a>
+                <a href="mailto:tiamangea01@gmail.com" class="hover:text-white transition-colors">Surel</a>
+                <a href="#hero" class="hover:text-white transition-colors">Kembali Ke Atas</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript Interactions Logic -->
+    <script>
+        // --- Theme Selector Logic (Red <-> Blue) ---
+        let currentTheme = localStorage.getItem('theme') || 'red';
+        const themeToggles = document.querySelectorAll('.theme-toggle-btn');
+        
+        function updateThemeUI() {
+            themeToggles.forEach(toggle => {
+                const knob = toggle.querySelector('.knob');
+                if (currentTheme === 'blue') {
+                    knob.style.transform = 'translateX(24px)';
+                    knob.style.backgroundColor = '#0A84FF';
+                } else {
+                    knob.style.transform = 'translateX(0px)';
+                    knob.style.backgroundColor = '#E50914';
+                }
+            });
+            document.documentElement.setAttribute('data-theme', currentTheme);
+        }
+
+        themeToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                currentTheme = currentTheme === 'red' ? 'blue' : 'red';
+                localStorage.setItem('theme', currentTheme);
+                updateThemeUI();
+                
+                // Trigger cinematic shockwave and explosion burst on toggle
+                shockwaves.push(new Shockwave(e.clientX, e.clientY));
+                for (let i = 0; i < 15; i++) {
+                    let angle = Math.random() * Math.PI * 2;
+                    let speedMag = Math.random() * 3 + 1;
+                    let vx = Math.cos(angle) * speedMag;
+                    let vy = Math.sin(angle) * speedMag;
+                    particles.push(new Particle(e.clientX, e.clientY, vx, vy, Math.random() * 2 + 1, Math.random() * 0.02 + 0.01));
+                }
+            });
+        });
+
+        // Initialize active theme
+        updateThemeUI();
+
+        // Helper to grab theme RGB for dynamic canvas rendering
+        function getThemeRGB() {
+            return currentTheme === 'red' ? '229, 9, 20' : '10, 132, 255';
+        }
+
+
+        // --- Antigravity Particle & Wave Engine (Cursor-Only Crimson Abyss Edition) ---
+        const canvas = document.getElementById('antigravity-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let particles = [];
+        let shockwaves = [];
+
+        // Pelacak Koordinat Kursor
+        let mouse = { x: null, y: null, prevX: null, prevY: null, active: false };
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        // Cetak Biru Kelas Partikel
+        class Particle {
+            constructor(x, y, vx, vy, size, decay) {
+                this.x = x;
+                this.y = y;
+                this.size = size || Math.random() * 2.5 + 1;
+                this.vx = vx || (Math.random() - 0.5) * 1.5;
+                this.vy = vy || (Math.random() - 0.5) * 1.5 - 0.5;
+                this.alpha = 1;
+                this.decay = decay || Math.random() * 0.015 + 0.01;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+            }
+
+            draw() {
+                if (this.alpha <= 0) return;
+                ctx.save();
+                
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * 3.2, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${getThemeRGB()}, ${this.alpha * 0.28})`;
+                ctx.fill();
+                
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha * 0.95})`;
+                ctx.fill();
+                
+                ctx.restore();
+            }
+        }
+
+        // Cetak Biru Kelas Gelombang Kejut (Shockwave)
+        class Shockwave {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.radius = 5;
+                this.maxRadius = 180;
+                this.speed = 5;
+                this.alpha = 1;
+            }
+
+            update() {
+                this.radius += this.speed;
+                this.alpha = 1 - (this.radius / this.maxRadius);
+
+                particles.forEach(p => {
+                    let dx = p.x - this.x;
+                    let dy = p.y - this.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (Math.abs(dist - this.radius) < 20) {
+                        let angle = Math.atan2(dy, dx);
+                        let force = this.alpha * 5.5;
+                        p.vx += Math.cos(angle) * force;
+                        p.vy += Math.sin(angle) * force;
+                    }
+                });
+            }
+
+            draw() {
+                if (this.alpha <= 0) return;
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(${getThemeRGB()}, ${this.alpha * 0.65})`;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        // Perekaman Gerakan Kursor
+        window.addEventListener('mousemove', (e) => {
+            mouse.prevX = mouse.x;
+            mouse.prevY = mouse.y;
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            mouse.active = true;
+
+            let speed = 0;
+            if (mouse.prevX !== null) {
+                let dx = mouse.x - mouse.prevX;
+                let dy = mouse.y - mouse.prevY;
+                speed = Math.sqrt(dx*dx + dy*dy);
+            }
+
+            let spawnChance = Math.min(speed * 0.1, 4);
+            for (let i = 0; i < spawnChance; i++) {
+                let angle = Math.random() * Math.PI * 2;
+                let speedMag = Math.random() * 0.8;
+                let vx = Math.cos(angle) * speedMag;
+                let vy = Math.sin(angle) * speedMag - 0.3;
+                particles.push(new Particle(mouse.x, mouse.y, vx, vy, Math.random() * 2 + 1, Math.random() * 0.02 + 0.015));
+            }
+        });
+
+        window.addEventListener('mouseleave', () => {
+            mouse.active = false;
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                let tx = e.touches[0].clientX;
+                let ty = e.touches[0].clientY;
+                mouse.x = tx;
+                mouse.y = ty;
+                
+                for (let i = 0; i < 2; i++) {
+                    let angle = Math.random() * Math.PI * 2;
+                    let vx = Math.cos(angle) * 0.5;
+                    let vy = Math.sin(angle) * 0.5 - 0.3;
+                    particles.push(new Particle(tx, ty, vx, vy, Math.random() * 2 + 1, Math.random() * 0.02 + 0.015));
+                }
+            }
+        });
+
+        // Triggering particles and shockwaves on click
+        window.addEventListener('click', (e) => {
+            if (e.target.closest('input') || e.target.closest('textarea')) return;
+            shockwaves.push(new Shockwave(e.clientX, e.clientY));
+            
+            for (let i = 0; i < 25; i++) {
+                let angle = Math.random() * Math.PI * 2;
+                let speedMag = Math.random() * 4 + 1.5;
+                let vx = Math.cos(angle) * speedMag;
+                let vy = Math.sin(angle) * speedMag - 0.5;
+                particles.push(new Particle(e.clientX, e.clientY, vx, vy, Math.random() * 2.5 + 1.2, Math.random() * 0.02 + 0.01));
+            }
+        });
+
+        // Siklus Animasi Utama Partikel
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles = particles.filter(p => p.alpha > 0);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            
+            shockwaves = shockwaves.filter(s => s.alpha > 0);
+            shockwaves.forEach(s => {
+                s.update();
+                s.draw();
+            });
+            
+            requestAnimationFrame(animateParticles);
+        }
+
+        resizeCanvas();
+        animateParticles();
+
+
+        // --- Layer Pertama: Splash Screen Cinematic Interaction ---
+        const btnContinue = document.getElementById('btn-continue');
+        const splashScreen = document.getElementById('splash-screen');
+        
+        btnContinue.addEventListener('click', (e) => {
+            // Trigger beautiful shockwave exactly at button click point
+            shockwaves.push(new Shockwave(e.clientX, e.clientY));
+            
+            // Semburkan kembang api ledakan partikel besar
+            for (let i = 0; i < 35; i++) {
+                let angle = Math.random() * Math.PI * 2;
+                let speedMag = Math.random() * 5 + 2;
+                let vx = Math.cos(angle) * speedMag;
+                let vy = Math.sin(angle) * speedMag - 0.5;
+                particles.push(new Particle(e.clientX, e.clientY, vx, vy, Math.random() * 2.5 + 1.2, Math.random() * 0.012 + 0.008));
+            }
+            
+            // Fade-out and slide transition for splash screen
+            splashScreen.classList.add('opacity-0', 'pointer-events-none', 'scale-105');
+            
+            // Enable dashboard scrolling
+            document.body.classList.remove('overflow-hidden');
+        });
+
+
+        // Floating Monolith Header and Scroll Progress Logic
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            const progress = document.getElementById('scroll-progress');
+            
+            if (window.scrollY > 50) {
+                header.classList.add('shadow-[0_10px_30px_rgba(0,0,0,0.8)]');
+            } else {
+                header.classList.remove('shadow-[0_10px_30px_rgba(0,0,0,0.8)]');
+            }
+
+            const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+            if (totalScroll > 0) {
+                const scrolledPercent = (window.scrollY / totalScroll) * 100;
+                progress.style.width = scrolledPercent + '%';
+            }
+        });
+
+        // Interactive Cursor Glow Tracker for Desktop Devices
+        const cursorGlow = document.getElementById('cursor-glow');
+        window.addEventListener('mousemove', (e) => {
+            cursorGlow.style.opacity = '1';
+            cursorGlow.style.left = `${e.clientX}px`;
+            cursorGlow.style.top = `${e.clientY}px`;
+        });
+
+        window.mouseleave = function() {
+            cursorGlow.style.opacity = '0';
+        };
+
+        // Bento Grid Hover Effects
+        const cards = document.querySelectorAll('.glow-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Mobile Menu Toggle Panel Action
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Lead-Capture Form Submission simulation
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const successBox = document.getElementById('form-success-box');
+            successBox.classList.remove('hidden');
+            successBox.classList.add('flex');
+        }
+
+        function resetFormState() {
+            const successBox = document.getElementById('form-success-box');
+            const form = document.getElementById('contact-form');
+            
+            successBox.classList.add('hidden');
+            successBox.classList.remove('flex');
+            form.reset();
+        }
+    </script>
+</body>
+</html>
